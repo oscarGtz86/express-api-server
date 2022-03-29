@@ -1,0 +1,40 @@
+{
+  "name": "express-api-server",
+  "version": "1.0.0",
+  "description": "Express API server",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oscarGtz86/express-api-server.git"
+  },
+  "keywords": [
+    "express",
+    "API",
+    "node.js"
+  ],
+  "author": "Oscar Escamilla",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oscarGtz86/express-api-server/issues"
+  },
+  "homepage": "https://github.com/oscarGtz86/express-api-server#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^15.0.0",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "hbs": "^4.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "axios": "^0.26.0",
+    "eslint": "^8.8.0",
+    "jest": "^27.5.1"
+  }
+}
