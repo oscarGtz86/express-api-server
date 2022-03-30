@@ -8,6 +8,12 @@ Node.js Express API Server
 [![docker](https://img.shields.io/badge/docker-%3E%3D%2020.x-blue)](https://docs.docker.com/get-docker/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/oscarGtz86/express-api-server)
 
+## Prerequisites
+
+* Node.js
+* Docker Compose
+* Postman
+
 ## Description
 
 The present repository implements a simple Rest API server with basic operaction (CRUD) througth a MongoDB User's collection
