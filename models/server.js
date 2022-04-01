@@ -3,7 +3,9 @@
  * @author Oscar Escamilla
  * @date 02.02.2022
  */
+const compression = require('compression');
 const express = require('express');
+const helmet = require('helmet');
 const morgan = require('morgan');
 const { dbConnection } = require('../database/config');
 const { auth, users } = require('../routes');
@@ -45,6 +47,14 @@ class Server {
      * Middlewares
      */
     middlewares () {
+        // Use gzip compression
+        this.app.use( compression() );
+
+        // Use helmet default config
+        // https://www.npmjs.com/package/helmet
+        // https://helmetjs.github.io/
+        this.app.use( helmet() );
+
         // Morgan log
         this.app.use( morgan('combined') );
 
