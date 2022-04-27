@@ -32,13 +32,16 @@
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "winston": "^3.7.2",
+    "winston-daily-rotate-file": "^4.6.1"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "axios": "^0.26.0",
     "eslint": "^8.8.0",
     "jest": "^27.5.1",
-    "mockingoose": "^2.15.2"
+    "mockingoose": "^2.15.2",
+    "supertest": "^6.2.2"
   }
 }

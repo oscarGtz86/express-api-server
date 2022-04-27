@@ -7,6 +7,7 @@ const compression = require('compression');
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const logger = require('../helpers/winston'); // Winston logger
 const { dbConnection } = require('../database/config');
 const { auth, users } = require('../routes');
 
@@ -27,7 +28,7 @@ class Server {
         this.authPath = '/api/auth';
 
         // Connect to MongoDB
-        this.dbConnection();
+        this.dbConnection(logger);
 
         // Set middlewares
         this.middlewares();
@@ -39,8 +40,8 @@ class Server {
     /**
      * Connect to MongoDB
      */
-    async dbConnection () {
-        await dbConnection();
+    async dbConnection (logger) {
+        await dbConnection(logger);
     }
 
     /**
@@ -55,8 +56,8 @@ class Server {
         // https://helmetjs.github.io/
         this.app.use( helmet() );
 
-        // Morgan log
-        this.app.use( morgan('combined') );
+        // Morgan logging
+        this.app.use(morgan('combined', { stream: logger.stream }));
 
         // For parsing application/json
         this.app.use( express.json() );
@@ -66,6 +67,12 @@ class Server {
 
         // Handlebars
         this.app.set( 'view engine', 'hbs' );
+
+        // Logging
+        this.app.use( (req, res, next) => {
+            req.logger = logger;
+            next();
+        });
 
     }
 
@@ -98,7 +105,8 @@ class Server {
      */
     listen () {
         this.app.listen( this.port, () => {
-            console.log(`Running server on port ${this.port}`);
+            // console.log(`Running server on port ${this.port}`);
+            logger.info(`Running server on port ${this.port}`);
         } );
     }
 

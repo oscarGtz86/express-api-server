@@ -6,14 +6,15 @@
 
 const mongoose = require("mongoose")
 
-const dbConnection = async () => {
+const dbConnection = async (logger) => {
     try {
         // Use encodeURIComponent if the password contains $,#,@
         await mongoose.connect( process.env.DB_URL );
-        console.log('Database connected');
+        // console.log('Database connected');
+        logger.info('Database connected');
     } catch (error) {
-        console.error( error.stack );
-        console.error('Unable to connect to database');
+        logger.error( error.stack );
+        logger.error('Unable to connect to database');
         process.exit(1);
     }
 }
