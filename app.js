@@ -11,5 +11,3 @@ const app = new Server();
 app.listen();
 
 // TODO: Basic Auth
-// TODO: Integrate Winston
-// TODO: helmet and compress production notes
