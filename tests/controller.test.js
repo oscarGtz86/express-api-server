@@ -55,7 +55,6 @@ describe('API endpoints', () => {
         /** Should return user's array lenght **/
         const [[jsonResponse]] = res.json.mock.calls; // Get response
         expect(jsonResponse.total).toEqual(3);
-        // console.log(jsonResponse.users);
         
         /** Should return usersArray[0].email **/
         expect(jsonResponse.users[0].email).toEqual(usersArray[0].email);

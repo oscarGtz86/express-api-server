@@ -93,6 +93,7 @@ const putUser = async (req = request, res = response, next) => {
 const deleteUser = async (req = request, res = response, next) => {
     try {
         const { id } = req.params;
+        req.logger.info(`Deleting ${id}`);
         // const user = await User.findByIdAndDelete( id ); // If you need to delete document
         const user = await User.findByIdAndUpdate( id, { status: false }, { new: true } );
         res.status( 200 ).json( user );

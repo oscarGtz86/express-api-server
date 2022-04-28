@@ -25,22 +25,22 @@ const options = {
         format: format.combine(
             format.colorize(),
             format.timestamp({
-                format: 'YYYY-MM-DD HH:mm:ss'
+                format: process.env.LOG_TIMESTAMP
             }),
-            format.printf(info => `${info.timestamp} ${info.level}: ${JSON.stringify(info.message)}`)
+            format.printf(info => `${'Hello'} ${info.timestamp} ${info.level}: ${JSON.stringify(info.message)}`)
         ),
         filename: `${logDir}/${logName}-%DATE%.log`,
-        datePattern: 'YYYY-MM-DD',
+        datePattern: process.env.FILE_DATE_PATTERN,
         zippedArchive: true,
         // maxSize: '20m',
-        maxFiles: '5d'
+        maxFiles: process.env.MAX_FILES
     },
     console: {
         level: level,
         format: format.combine(
             format.colorize(),
             format.timestamp({
-                format: 'YYYY-MM-DD HH:mm:ss'
+                format: process.env.LOG_TIMESTAMP
             }),
             format.printf(info => `${info.timestamp} ${info.level}: ${JSON.stringify(info.message)}`)
         )
@@ -58,7 +58,7 @@ const logger = createLogger({
 
 // create a stream object with a 'write' function that will be used by `morgan`
 logger.stream = {
-    write: function(message, encoding) {
+    write: (message, encoding) => {
         // use the 'info' log level so the output will be picked up by both transports (file and console)
         logger.info(message);
     },

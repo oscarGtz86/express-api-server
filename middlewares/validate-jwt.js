@@ -12,12 +12,12 @@ const User = require('../models/user');
  * @param {string} "authorization" Header that contains token
  */
 const validateJWT = async ( req = request, res = response, next ) => {
-    // console.log(req.headers);
+    req.logger.debug(req.headers);
     const header = req.headers.authorization;
 
     // If header is empty or incorrect authentication
     if ( !header || header.indexOf('Bearer ') === -1) {
-        console.log('Invalid Header');
+        req.logger.warn('Invalid Header');
         return res.status(401).json({
             msg: 'No authorized'
         });
@@ -32,14 +32,15 @@ const validateJWT = async ( req = request, res = response, next ) => {
         const user = await User.findById( uid );
 
         if ( !user ) { // If user not exists
-            console.log('Invalid user');
+            req.logger.warn('Invalid user');
             return res.status(401).json({
                 msg: 'No authorized'
             });
         }
 
         if ( !user.status ) { // If user status is invalid
-            console.log("Invalid user's status");
+            req.logger.warn([1,2,3]);
+            req.logger.warn("Invalid user's status");
             return res.status(401).json({
                 msg: 'No authorized'
             });
@@ -49,7 +50,7 @@ const validateJWT = async ( req = request, res = response, next ) => {
         next();
 
     } catch (error) {
-        console.log('Invalid token');
+        req.logger.warn('Invalid token');
         return res.status( 401 ).json({
             msg: 'No authorized'
         });

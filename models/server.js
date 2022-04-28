@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const logger = require('../helpers/winston'); // Winston logger
 const { dbConnection } = require('../database/config');
 const { auth, users } = require('../routes');
+const uuidv4 = require('../middlewares/uuidv4');
 
 /**
  * Server class contains listen method, routes and middlewares
@@ -67,13 +68,21 @@ class Server {
 
         // Handlebars
         this.app.set( 'view engine', 'hbs' );
-
+        
         // Logging
         this.app.use( (req, res, next) => {
-            req.logger = logger;
+            req.winston = logger;
             next();
         });
 
+        // Inyect UUID v4 into logger
+        this.app.use( uuidv4 );
+
+        // Logging IP, method and path
+        this.app.use( (req, res, next) => {
+            req.logger.info(`${req.ip} ${req.protocol} ${req.method} ${req.path} ${req.headers['user-agent']}`);
+            next();
+        });
     }
 
     /**
@@ -105,7 +114,6 @@ class Server {
      */
     listen () {
         this.app.listen( this.port, () => {
-            // console.log(`Running server on port ${this.port}`);
             logger.info(`Running server on port ${this.port}`);
         } );
     }

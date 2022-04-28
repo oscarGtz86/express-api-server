@@ -10,7 +10,6 @@ const dbConnection = async (logger) => {
     try {
         // Use encodeURIComponent if the password contains $,#,@
         await mongoose.connect( process.env.DB_URL );
-        // console.log('Database connected');
         logger.info('Database connected');
     } catch (error) {
         logger.error( error.stack );
