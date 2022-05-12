@@ -8,10 +8,14 @@ const { createLogger, format, transports } = require('winston'); // Winston logg
 require('winston-daily-rotate-file');
 const fs = require('fs');
 
+// Config variables
 const node_env = process.env.NODE_ENV || 'development';
 const level = node_env === 'development' ? 'debug' : 'info';
 const logDir = process.env.LOG_PATH || 'logs';
-const logName = process.env.LOG_NAME || 'server'
+const logName = process.env.LOG_NAME || 'server';
+const logMaxFiles = process.env.LOG_MAX_FILES || '5d';
+const logDateMask = process.env.LOG_DATE_MASK || 'YYYY-MM-DD HH:mm:ss';
+const logDatePattern = process.env.LOG_DATE_PATTERN || 'YYYY-MM-DD';
 
 // create the log directory if it does not exist
 if (!fs.existsSync(logDir)) {
@@ -25,22 +29,22 @@ const options = {
         format: format.combine(
             format.colorize(),
             format.timestamp({
-                format: process.env.LOG_TIMESTAMP
+                format: logDateMask
             }),
-            format.printf(info => `${'Hello'} ${info.timestamp} ${info.level}: ${JSON.stringify(info.message)}`)
+            format.printf(info => `${info.timestamp} ${info.level}: ${JSON.stringify(info.message)}`)
         ),
         filename: `${logDir}/${logName}-%DATE%.log`,
-        datePattern: process.env.FILE_DATE_PATTERN,
+        datePattern: logDatePattern,
         zippedArchive: true,
         // maxSize: '20m',
-        maxFiles: process.env.MAX_FILES
+        maxFiles: logMaxFiles
     },
     console: {
         level: level,
         format: format.combine(
             format.colorize(),
             format.timestamp({
-                format: process.env.LOG_TIMESTAMP
+                format: logDateMask
             }),
             format.printf(info => `${info.timestamp} ${info.level}: ${JSON.stringify(info.message)}`)
         )
