@@ -99,7 +99,10 @@ describe('API endpoints', () => {
 
     test('DELETE: should delete user', async () => {
         const req = {
-            params: { id: 1 }
+            params: { id: 1 },
+            logger: {
+                info: console.log
+            }
         }; // Mock parameters
         const res = { // Mock express Response
             status: jest.fn().mockReturnThis(),
