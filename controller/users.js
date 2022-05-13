@@ -95,7 +95,7 @@ const deleteUser = async (req = request, res = response, next) => {
         const { id } = req.params;
         req.logger.info(`Deleting ${id}`);
         // const user = await User.findByIdAndDelete( id ); // If you need to delete document
-        const user = await User.findByIdAndUpdate( id, { status: false }, { new: true } );
+        const user = await User.findByIdAndUpdate( id, { status: false }, { new: true } ); // Disable user
         res.status( 200 ).json( user );
     } catch (error) {
         next( error ); // Throws error handler
