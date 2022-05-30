@@ -1,5 +1,5 @@
 /**
- * Implement all middlewares
+ * Validator middleware
  * @author Oscar Escamilla
  * @date 02.02.2022
  */
@@ -7,7 +7,7 @@ const { request, response } = require("express");
 const { validationResult } = require("express-validator");
 
 /**
- * 
+ * Fields validator middleware
  * @param {Request} req Express request
  * @param {Response} res Express response
  * @param {function} next Express next function
