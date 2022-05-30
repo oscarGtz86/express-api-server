@@ -11,7 +11,7 @@ const morgan = require('morgan');
 const logger = require('../helpers/winston'); // Winston logger
 const { dbConnection } = require('../database/config');
 const { auth, users } = require('../routes');
-const uuidv4 = require('../middlewares/uuidv4');
+const { loggingPath, setUUID, loggingUUID, loggingResponse } = require('../middlewares');
 
 /**
  * Server class contains listen method, routes and middlewares
@@ -61,8 +61,13 @@ class Server {
         // CORS
         this.app.use(cors())
 
+        // Inyect and log UUID v4 
+        this.app.use( setUUID );
+        this.app.use( loggingUUID );
+        this.app.use( loggingResponse );
+        
         // Morgan logging
-        this.app.use(morgan('combined', { stream: logger.stream }));
+        this.app.use(morgan(process.env.MORGAN_STRING, { stream: logger.stream }));
 
         // For parsing application/json
         this.app.use( express.json() );
@@ -79,14 +84,8 @@ class Server {
             next();
         });
 
-        // Inyect UUID v4 into logger
-        this.app.use( uuidv4 );
-
         // Logging IP, method and path
-        this.app.use( (req, res, next) => {
-            req.logger.info(`${req.ip} ${req.protocol} ${req.method} ${req.path} ${req.headers['user-agent']}`);
-            next();
-        });
+        this.app.use( loggingPath );
     }
 
     /**
