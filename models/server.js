@@ -6,6 +6,7 @@
 const compression = require('compression');
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 const morgan = require('morgan');
 const logger = require('../helpers/winston'); // Winston logger
 const { dbConnection } = require('../database/config');
@@ -55,7 +56,10 @@ class Server {
         // Use helmet default config
         // https://www.npmjs.com/package/helmet
         // https://helmetjs.github.io/
-        this.app.use( helmet() );
+        // this.app.use( helmet() );
+
+        // CORS
+        this.app.use(cors())
 
         // Morgan logging
         this.app.use(morgan('combined', { stream: logger.stream }));
