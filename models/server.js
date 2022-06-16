@@ -58,6 +58,9 @@ class Server {
         // https://helmetjs.github.io/
         this.app.use( helmet() );
 
+        // CORS
+        // this.app.use(cors())
+
         // Inyect and log UUID v4 
         this.app.use( setUUID );
         this.app.use( loggingUUID );
